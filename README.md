@@ -1,0 +1,2 @@
+# daily
+git commit auto
