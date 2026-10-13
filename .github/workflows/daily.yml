@@ -1,0 +1,29 @@
+name: Daily auto commit
+
+on:
+  schedule:
+    # 매일 한국 시간 오후 9시 17분 (UTC 12:17)
+    - cron: '17 12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update log and commit
+        env:
+          TZ: Asia/Seoul
+        run: |
+          git config user.name "SeungHwan327"
+          git config user.email "hwan00716@gmail.com"
+
+          date '+%Y-%m-%d %H:%M:%S — automated update' >> daily-log.txt
+
+          git add daily-log.txt
+          git commit -m "chore: daily automated update"
+          git push
